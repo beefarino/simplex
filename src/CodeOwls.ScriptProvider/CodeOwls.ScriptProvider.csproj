@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{84D0C4A4-26F8-4D53-B4ED-3893F2D77B4F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodeOwls.ScriptProvider</RootNamespace>
+    <AssemblyName>CodeOwls.ScriptProvider</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0__31bf3856ad364e35\System.Management.Automation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extensions.cs" />
+    <Compile Include="LogManager.cs" />
+    <Compile Include="Nodes\Folder.cs" />
+    <Compile Include="Nodes\IAddFolder.cs" />
+    <Compile Include="Nodes\IAddScript.cs" />
+    <Compile Include="Nodes\IFolder.cs" />
+    <Compile Include="Nodes\IItem.cs" />
+    <Compile Include="Nodes\IScript.cs" />
+    <Compile Include="Nodes\LazyFolder.cs" />
+    <Compile Include="Nodes\LazyScript.cs" />
+    <Compile Include="Nodes\NodeType.cs" />
+    <Compile Include="Nodes\RootFolder.cs" />
+    <Compile Include="Nodes\ScriptFolder.cs" />
+    <Compile Include="Persistence\IPersistPolarisNode.cs" />
+    <Compile Include="Persistence\PolarisException.cs" />
+    <Compile Include="Persistence\ScriptPersister.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Provider\FolderPathNode.cs" />
+    <Compile Include="Provider\ItemPathNode.cs" />
+    <Compile Include="Provider\PathResolver.cs" />
+    <Compile Include="Provider\PolarisDrive.cs" />
+    <Compile Include="Provider\ScriptProviderPathResolver.cs" />
+    <Compile Include="Provider\PolarisProvider.cs" />
+    <Compile Include="Provider\PsObjectNodeFactory.cs" />
+    <Compile Include="Provider\RootPathNode.cs" />
+    <Compile Include="Provider\ScriptPathNode.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeOwls.PowerShell\CodeOwls.PowerShell.Paths\CodeOwls.PowerShell.Paths.csproj">
+      <Project>{ed0453c7-c25a-4354-ac7a-046846d5e7ff}</Project>
+      <Name>CodeOwls.PowerShell.Paths</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeOwls.PowerShell\CodeOwls.PowerShell.Provider\CodeOwls.PowerShell.Provider.csproj">
+      <Project>{b352375b-7c58-4943-95c0-14871e17a208}</Project>
+      <Name>CodeOwls.PowerShell.Provider</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
