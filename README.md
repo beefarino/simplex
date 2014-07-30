@@ -69,9 +69,10 @@ root {
 
    folder Generated {
 	   0..9 | foreach-object {
+           $content = $_;
 	       script "Generated$_" {
-		       $_
-		   }
+		       $content
+		   }.GetNewClosure();
 	   }
 	}
 }
