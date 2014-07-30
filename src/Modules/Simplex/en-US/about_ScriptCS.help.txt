@@ -1,0 +1,42 @@
+﻿TOPIC
+    about_ScriptCS
+
+COPYRIGHT
+    Copyright (c) 2013 Code Owls LLC, All Rights Reserved.
+
+LICENSE
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License. 
+   
+SHORT DESCRIPTION
+    Allows the execution of ScriptCS in your PowerShell session.
+
+LONG DESCRIPTION
+	Allows the execution of ScriptCS in your PowerShell session.
+    
+    The current release supports the following cmdlets:
+    
+    Invoke-ScriptCS - allows you to execute arbitrary ScriptCS code
+        as part of a pipeline.  You can pipe data to ScriptCS code
+        and receive data from the ScriptCS output.  In addition, you
+        can access PowerShell semantics from ScriptCS using the 
+        automatic 'pscmdlet' ScriptCS variable.
+    
+QUICK EXAMPLE
+
+	import-module scriptcs
+    invoke-scriptcs 'DateTime.Now'
+
+SEE ALSO
+    http://scriptcs.net/
+    http://www.codeowls.com/
+    

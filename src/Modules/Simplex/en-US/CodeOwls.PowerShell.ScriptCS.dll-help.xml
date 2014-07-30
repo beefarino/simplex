@@ -1,0 +1,374 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<helpItems schema="maml">
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Invoke-ScriptCS</command:name>
+      <maml:description>
+        <maml:para>Invoke-ScriptCS [-Script] &lt;String&gt; [-Input &lt;Object[]&gt;] [-References &lt;String[]&gt;] [-Namespaces &lt;String[]&gt;] [-Verbose] [-Debug] [-ErrorAction &lt;ActionPreference&gt;] [-WarningAction &lt;ActionPreference&gt;] [-ErrorVariable &lt;String&gt;] [-WarningVariable &lt;String&gt;] [-OutVariable &lt;String&gt;] [-OutBuffer &lt;Int32&gt;]
+</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+      </maml:copyright>
+      <command:verb>Invoke</command:verb>
+      <command:noun>ScriptCS</command:noun>
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <maml:para>Executes ScriptCS code as part of the pipeline.</maml:para>
+      <maml:para>The ScriptCS code is evaluated once for each input object pipes to the Invoke-ScriptCS cmdlet.  Pipeline input is available in the ScriptCS code using the Input property of the automatic variable "pscmdlet".  This Input property is always of type object[].</maml:para>
+      <maml:para>The ScriptCS code is evaluated once for each input object pipes to the Invoke-ScriptCS cmdlet.  Pipeline input, as well as most methods and properties of the cmdlet iteself, can be access from the ScriptCS code using the variable named "pscmdlet".  This ScriptCS variable is equivalent to the $pscmdlet PowerShell variable available in advanced functions.</maml:para>
+      <maml:para>Any objects returned by the ScriptCS code are written to the current pipeline.  In addition, you can use the pscmdlet.WriteObject method from your ScriptCS code to write objects to the pipeline in a piecemeal fashion.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <command:name>Invoke-ScriptCS</command:name>
+        <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="">
+          <maml:name>Input</maml:name>
+          <maml:description>
+            <maml:para>The input to supply to the ScriptCS script.  These objects are available in the ScriptCS code from the pscmdlet.Input property.</maml:para>
+          </maml:description>
+          <command:parameterValue required="True" variableLength="false">System.Object[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="True" variableLength="false" globbing="false" pipelineInput="false" position="0">
+          <maml:name>Script</maml:name>
+          <maml:description>
+            <maml:para>The ScriptCS script.</maml:para>
+          </maml:description>
+          <command:parameterValue required="True" variableLength="false">System.String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+          <maml:name>References</maml:name>
+          <maml:description>
+            <maml:para>The list of assembly references, specified as assembly names and/or locations.  If unspecified, defaults to "System", "System.Core", "System.Data", "System.Data.DataSetExtensions", "System.Xml", "System.Xml.Linq"</maml:para>
+          </maml:description>
+          <command:parameterValue required="True" variableLength="false">System.String[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+          <maml:name>Namespaces</maml:name>
+          <maml:description>
+            <maml:para>The list of default namespaces to import.  If unspecified, defaults to "System", "System.Collections.Generic", "System.Linq", "System.Text", "System.Threading.Tasks"</maml:para></maml:description>
+          <command:parameterValue required="True" variableLength="false">System.String[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+          <maml:name>Verbose</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="True" variableLength="false">System.Management.Automation.SwitchParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+          <maml:name>Debug</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="True" variableLength="false">System.Management.Automation.SwitchParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+          <maml:name>ErrorAction</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="False" variableLength="false">SilentlyContinue | Stop | Continue | Inquire</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+          <maml:name>WarningAction</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="False" variableLength="false">SilentlyContinue | Stop | Continue | Inquire</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+          <maml:name>ErrorVariable</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="True" variableLength="false">System.String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+          <maml:name>WarningVariable</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="True" variableLength="false">System.String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+          <maml:name>OutVariable</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="True" variableLength="false">System.String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+          <maml:name>OutBuffer</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="True" variableLength="false">System.Int32</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="true (ByValue)" position="">
+        <maml:name>Input</maml:name>
+        <maml:description>
+          <maml:para>The input to supply to the ScriptCS script.  These objects are available in the ScriptCS code from the pscmdlet.Input property.</maml:para>
+        </maml:description>
+        <command:parameterValue required="True" variableLength="false">System.Object[]</command:parameterValue>
+        <dev:type>
+          <maml:name>Object[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+      <command:parameter required="True" variableLength="false" globbing="false" pipelineInput="false" position="0">
+        <maml:name>Script</maml:name>
+        <maml:description>
+          <maml:para>The ScriptCS script.</maml:para>
+        </maml:description>
+        <command:parameterValue required="True" variableLength="false">System.String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+      <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+        <maml:name>References</maml:name>
+        <maml:description>
+          <maml:para>The list of assembly references, specified as assembly names and/or locations.  If unspecified, defaults to "System", "System.Core", "System.Data", "System.Data.DataSetExtensions", "System.Xml", "System.Xml.Linq"</maml:para>
+        </maml:description>
+        <command:parameterValue required="True" variableLength="false">System.String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+      <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+        <maml:name>Namespaces</maml:name>
+        <maml:description>
+            <maml:para>The list of default namespaces to import.  If unspecified, defaults to "System", "System.Collections.Generic", "System.Linq", "System.Text", "System.Threading.Tasks"</maml:para>
+        </maml:description>
+        <command:parameterValue required="True" variableLength="false">System.String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+      <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+        <maml:name>Verbose</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+        <command:parameterValue required="True" variableLength="false">System.Management.Automation.SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+      <command:parameter required="" variableLength="false" globbing="false" pipelineInput="false" position="">
+        <maml:name>Debug</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+        <command:parameterValue required="True" variableLength="false">System.Management.Automation.SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+      <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+        <maml:name>ErrorAction</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+        <command:parameterValue required="False" variableLength="false">System.Management.Automation.ActionPreference</command:parameterValue>
+        <dev:type>
+          <maml:name>ActionPreference</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+      <command:parameter required="False" variableLength="false" globbing="false" pipelineInput="false" position="">
+        <maml:name>WarningAction</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+        <command:parameterValue required="False" variableLength="false">System.Management.Automation.ActionPreference</command:parameterValue>
+        <dev:type>
+          <maml:name>ActionPreference</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+      <command:parameter required="" variableLength="false" globbing="false" pipelineInput="false" position="">
+        <maml:name>ErrorVariable</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+        <command:parameterValue required="True" variableLength="false">System.String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+      <command:parameter required="" variableLength="false" globbing="false" pipelineInput="false" position="">
+        <maml:name>WarningVariable</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+        <command:parameterValue required="True" variableLength="false">System.String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+      <command:parameter required="" variableLength="false" globbing="false" pipelineInput="false" position="">
+        <maml:name>OutVariable</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+        <command:parameterValue required="True" variableLength="false">System.String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+      <command:parameter required="" variableLength="false" globbing="false" pipelineInput="false" position="">
+        <maml:name>OutBuffer</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+        <command:parameterValue required="True" variableLength="false">System.Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue />
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para>You can pipe objects to Invoke-ScriptCS.  These objects will be available from ScriptCS in the pscmdlet.Input property.</maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description />
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para>Any object returned from the ScriptCS code is written to the pipeline.</maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description />
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <maml:alertSet>
+      <maml:title />
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+          <maml:title>--------------  EXAMPLE 1 --------------</maml:title>
+          <maml:introduction>
+            <maml:para>C:\PS&gt;</maml:para>
+          </maml:introduction>
+          <dev:code>Invoke-ScriptCS -Script '"Hello PowerShell " + "from " + "ScriptCS!"';</dev:code>
+          <dev:remarks>
+            <maml:para>Uses ScriptCS to concatenate a string.</maml:para>
+            <maml:para />
+            <maml:para />
+            <maml:para />
+            <maml:para />
+          </dev:remarks>
+          <command:commandLines>
+            <command:commandLine>
+              <command:commandText />
+            </command:commandLine>
+          </command:commandLines>
+        </command:example>
+        <command:example>
+          <maml:title>--------------  EXAMPLE 2 --------------</maml:title>
+          <maml:introduction>
+            <maml:para>C:\PS&gt;</maml:para>
+          </maml:introduction>
+          <dev:code>0..9 | Invoke-ScriptCS "pscmdlet.Input"</dev:code>
+          <dev:remarks>
+            <maml:para>This example demonstrates how to access pipeline input from ScriptCS.</maml:para>
+            <maml:para>The pscmdlet object instance is defined automatically by the ScriptCS PowerShell module.  The Input property of pscmdlet is an object[] that contains the current pipeline contents.</maml:para>
+            <maml:para />
+            <maml:para />
+            <maml:para />
+          </dev:remarks>
+          <command:commandLines>
+            <command:commandLine>
+              <command:commandText />
+            </command:commandLine>
+          </command:commandLines>
+        </command:example>
+        <command:example>
+          <maml:title>--------------  EXAMPLE 3 --------------</maml:title>
+          <maml:introduction>
+            <maml:para>C:\PS&gt;</maml:para>
+          </maml:introduction>
+          <dev:code>0..9 | Invoke-ScriptCS "pscmdlet.WriteVerbose( pscmdlet.Input[0] )"</dev:code>
+          <dev:remarks>
+            <maml:para>This example demonstrates how to access pscmdlet methods and properties from ScriptCS.</maml:para>
+            <maml:para>The pscmdlet object instance is defined automatically by the ScriptCS PowerShell module.  This object is equivalent to the $pscmdlet object available in advanced PowerShell functions.</maml:para>
+            <maml:para />
+            <maml:para />
+            <maml:para />
+          </dev:remarks>
+          <command:commandLines>
+            <command:commandLine>
+              <command:commandText />
+            </command:commandLine>
+          </command:commandLines>
+        </command:example>
+        <command:example>
+          <maml:title>--------------  EXAMPLE 4 --------------</maml:title>
+          <maml:introduction>
+            <maml:para>C:\PS&gt;</maml:para>
+          </maml:introduction>
+          <dev:code>Invoke-ScriptCS "DateTime.Now" | get-member</dev:code>
+          <dev:remarks>
+            <maml:para>This example demonstrates how to write objects to the pipeline from ScriptCS.</maml:para>
+            <maml:para>Any objects returned from Invoke-ScriptCS are written to the pipeline.  In addition, you can use the pscmdlet.WriteObject method to place output on the pipeline.</maml:para>
+            <maml:para />
+            <maml:para />
+            <maml:para />
+          </dev:remarks>
+          <command:commandLines>
+            <command:commandLine>
+              <command:commandText />
+            </command:commandLine>
+          </command:commandLines>
+        </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Invoke-ScriptCS</maml:linkText>
+        <maml:uri />
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+</helpItems>

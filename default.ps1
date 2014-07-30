@@ -19,7 +19,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
 # IN THE SOFTWARE. 
 # 
-# 	psake build script for the P2F library
+# 	psake build script for the Simplex module
 #
 # 	valid configurations:
 #  		Debug
@@ -30,36 +30,116 @@
 
 properties {
 	$config = 'Debug'; 	
-	$local = './_local';
-	$keyContainer = '';
 	$slnFile = @(
-		'./src/ProviderFramework.sln'
+		'./src/Simplex.sln'
 	);	
-	$libPath = "./lib"
-    $targetPath = "./src/P2F/CodeOwls.PowerShell.Provider/bin";
-    $metadataAssembly = 'CodeOwls.PowerShell.Provider.dll'
+    $targetPath = "./src/CodeOwls.ScriptProvider/bin";
+    
+    $moduleName = "Simplex";
+	$moduleSource = "./src/Modules";
+    $metadataAssembly = 'CodeOwls.ScriptProvider.dll'
+    $currentReleaseNotesPath = '.\src\Modules\$moduleName\en-US\about_Simplex_Version.help.txt'
 };
 
 framework '4.0'
 
-function get-packageDirectory
-{
-	return "." | resolve-path | join-path -child "/bin/$config";
+$private = "this is a private task not meant for external use";
+
+task default -depends Install;
+
+# private tasks
+
+task __VerifyConfiguration -description $private {
+	Assert ( @('Debug', 'Release') -contains $config ) "Unknown configuration, $config; expecting 'Debug' or 'Release'";
+	Assert ( Test-Path $slnFile ) "Cannot find solution, $slnFile";
+	
+	Write-Verbose ("packageDirectory: " + ( get-packageDirectory ));
 }
 
-function get-nugetPackageDirectory
+task __CreatePackageDirectory -description $private {
+	get-packageDirectory | create-packageDirectory;		
+}
+
+task __CreateModulePackageDirectory -description $private {
+	get-modulePackageDirectory | create-packageDirectory;		
+}
+
+# primary targets
+
+task Build -depends __VerifyConfiguration -description "builds any outdated dependencies from source" {
+	exec { 
+		msbuild $slnFile /p:Configuration=$config /t:Build 
+	}
+}
+
+task Clean -depends __VerifyConfiguration,CleanModule -description "deletes all temporary build artifacts" {
+	exec { 
+		msbuild $slnFile /p:Configuration=$config /t:Clean 
+	}
+}
+
+task Rebuild -depends Clean,Build -description "runs a clean build";
+
+task Package -depends PackageModule -description "assembles distributions in the source hive"
+
+# clean tasks
+
+task CleanModule -depends __CreateModulePackageDirectory -description "clears the module package staging area" {
+    get-modulePackageDirectory | 
+        remove-item -recurse -force;
+}
+
+# package tasks
+
+task PackageModule -depends CleanModule,Build,__CreateModulePackageDirectory -description "assembles module distribution file hive" -action {
+	$mp = get-modulePackageDirectory;
+    $psdFile = "$mp/$moduleName/$moduleName.psd1";
+    $bin = "$mp/$moduleName/bin";
+	$version = get-packageVersion;
+    
+    write-verbose "package module $moduleName in $mp with version $version";
+    
+	# copy module src hive to distribution hive
+	Copy-Item $moduleSource -container -recurse -Destination $mp -Force;
+	
+	# copy bins to module bin area
+    mkdir $bin -force | out-null;
+	get-targetOutputPath | ls | copy-item -dest $bin -recurse -force;
+    
+    $psd = get-content $psdFile;
+    $psd -replace "ModuleVersion = '[\d\.]+'","ModuleVersion = '$version'" | out-file $psdFile;
+}
+
+# install tasks
+
+task Uninstall -description "uninstalls the module from the local user module repository" {
+	$modulePath = $Env:PSModulePath -split ';' | select -First 1 | Join-Path -ChildPath $moduleName;
+	if( Test-Path $modulePath )
+	{
+		Write-Verbose "uninstalling from local module repository at $modulePath";
+		
+		$modulePath | ri -Recurse -force;
+	}
+}
+
+task Install -depends InstallModule -description "installs the module to the local machine";
+
+task InstallModule -depends PackageModule -description "installs the module to the local user module repository" {
+	$packagePath = get-modulePackageDirectory;
+	$modulePath = $Env:PSModulePath -split ';' | select -First 1;
+	Write-Verbose "installing to local module repository at $modulePath";
+	
+	ls $packagePath | Copy-Item -recurse -Destination $modulePath -Force;	
+}
+
+function get-packageDirectory
 {
-    return "." | resolve-path | join-path -child "/bin/$config/NuGet";
+	return "." | resolve-path | join-path -child "/build/$config";
 }
 
 function get-modulePackageDirectory
 {
-    return "." | resolve-path | join-path -child "/bin/$config/Modules";
-}
-
-function get-zipPackageName
-{
-	"SQLite.$(get-ProviderVersion).zip"
+    return "." | resolve-path | join-path -child "/build/$config/Modules";
 }
 
 function create-PackageDirectory( [Parameter(ValueFromPipeline=$true)]$packageDirectory )
@@ -75,65 +155,13 @@ function create-PackageDirectory( [Parameter(ValueFromPipeline=$true)]$packageDi
     }    
 }
 
-task default -depends Build;
-
-$private = "this is a private task not meant for external use";
-
-# private tasks 
-task __VerifyConfiguration -description $private {
-	Assert ( @('Debug', 'Release') -contains $config ) "Unknown configuration, $config; expecting 'Debug' or 'Release'";
-	Assert ( Test-Path $slnFile ) "Cannot find solution, $slnFile";
-	
-	Write-Verbose ("packageDirectory: " + ( get-packageDirectory ));
+function get-targetOutputPath
+{
+    $targetPath | join-path -childPath $config
 }
 
-task __CreatePackageDirectory -description $private {
-	get-packageDirectory | create-packageDirectory;		
+function get-packageVersion
+{
+    $md = $targetPath | join-path -childPath $config | join-path -ChildPath $metadataAssembly;
+	( get-item $md | select -exp versioninfo | select -exp productversion )
 }
-
-task __CreateNuGetPackageDirectory -description $private {
-    $p = get-nugetPackageDirectory;
-    $p  | create-packageDirectory;
-    @( 'tools','lib','content' ) | %{join-path $p -child $_ } | create-packageDirectory;
-}
-
-task __CreateLocalDataDirectory -description $private {
-	if( -not ( Test-Path $local ) )
-	{
-		mkdir $local | Out-Null;
-	}
-}
-
-# primary targets
-
-task Build -depends __VerifyConfiguration -description "builds any outdated dependencies from source" {
-	exec { 
-		msbuild $slnFile /p:Configuration=$config /p:KeyContainerName=$keyContainer /t:Build 
-	}
-}
-
-task Clean -depends __VerifyConfiguration,CleanNuGet -description "deletes all temporary build artifacts" {
-	exec { 
-		msbuild $slnFile /p:Configuration=$config /t:Clean 
-	}
-}
-
-task Rebuild -depends Clean,Build -description "runs a clean build";
-
-task Package -depends Build -description "assembles distributions in the source hive" {
-
-}
-
-# clean tasks
-
-task CleanNuGet -depends __CreateNuGetPackageDirectory -description "clears the nuget package staging area" {
-    get-nugetPackageDirectory | 
-        ls | 
-        ?{ $_.psiscontainer } | 
-        ls | 
-        remove-item -recurse -force;
-}
-
-
-
-
