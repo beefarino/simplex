@@ -1,8 +1,4 @@
 ﻿
-function invoke-ScriptProvider( $scriptBlock ) {
-    
-}
-
 $script:currentParentNode = new-object System.Collections.Stack;
 
 function root {
@@ -28,29 +24,14 @@ function script {
         [parameter(position=0, mandatory=$true)]
         [string]
         $name,
-
-        [parameter()]
-        [string[]]
-        $columns,
-
-        [parameter()]
-        [string]
-        $icon,
-
-        [parameter()]
-        [string]
-        $itemicon,
-
-        [parameter()]
+        
+        [parameter(position=1, mandatory=$false)]
         [string]
         $idField,
 
-        [parameter(mandatory=$true, position = 1)]
+        [parameter(mandatory=$true, position = 2)]
         [scriptblock]
-        $script,
-
-        [parameter(mandatory=$false, valuefromremainingarguments=$true)]
-        $contextMenuItems
+        $script
     )
 
     $menu = new-object 'system.collections.generic.dictionary[string,ScriptBlock]'

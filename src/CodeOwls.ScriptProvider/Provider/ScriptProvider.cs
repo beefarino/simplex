@@ -12,7 +12,7 @@ using CodeOwls.PowerShell.Paths.Processors;
 
 namespace CodeOwls.ScriptProvider.Provider
 {
-    [CmdletProvider( "ScriptProvider", ProviderCapabilities.ShouldProcess )]
+    [CmdletProvider( "Simplex", ProviderCapabilities.ShouldProcess )]
     public class ScriptProviderProvider : CodeOwls.PowerShell.Provider.Provider
     {
         public ScriptProviderDrive Drive

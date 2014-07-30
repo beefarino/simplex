@@ -55,10 +55,10 @@
     TypesToProcess = @()
 
     # Format files (.ps1xml) to be loaded when importing this module
-    FormatsToProcess = @()
+    FormatsToProcess = @( './formats/simplex.formats.ps1xml' )
 
     # Modules to import as nested modules of the module specified in ModuleToProcess
-    NestedModules = 'simplex-dsl.ps1'
+    NestedModules = 'simplex-dsl.psm1'
 
 
     # Functions to export from this module

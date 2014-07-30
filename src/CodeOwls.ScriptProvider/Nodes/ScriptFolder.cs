@@ -13,7 +13,6 @@ namespace CodeOwls.ScriptProvider.Nodes
         private readonly string _name;
         private readonly ScriptBlock _script;
         private readonly string _idField;
-        private readonly IDictionary<string, ScriptBlock> _menuItems;
 
         private static readonly ScriptBlock DefaultConvertToFile = ScriptBlock.Create("$input | convertto-xml -as string");
         public ScriptFolder(string name, string script, string idField, IFolder parentFolder)

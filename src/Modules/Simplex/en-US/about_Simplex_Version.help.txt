@@ -2,17 +2,17 @@
     about_ScriptCS_Version
 
 VERSION
-    You are running version 1.0 of ScriptCS.
+    You are running version 1.0 of Simplex.
 
 CHANGE LOG
   Description
     The changelog documents the changes in each release of the
-    ScriptCS PowerShell module.
+    Simplex PowerShell module.
 
 1.0.0 
   Initial Release
 
 SEE ALSO
-    http://scriptcs.net/
+    https://github.com/beefarino/simplex
     http://www.codeowls.com/
-    about_ScriptCS
+	about_Simplex

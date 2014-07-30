@@ -20,10 +20,13 @@ namespace CodeOwls.ScriptProvider.Provider
         public IEnumerable<IPathNode> ResolvePath(IProviderContext context, string path)
         {
             context.WriteDebug(String.Format("Resolving path [{0}] drive [{1}]", path, context.Drive));
-            path = Regex.Replace(path, @"^[^::]+::", String.Empty);
+            string scriptPath = Regex.Replace(path, @"^[^::]+::", String.Empty);
             if (null != context.Drive && !String.IsNullOrEmpty(context.Drive.Root))
             {
-                path = Regex.Replace(path, Regex.Escape(context.Drive.Root), String.Empty);
+                Regex re = new Regex("^.*(" + Regex.Escape(context.Drive.Root) + ")(.*)$", RegexOptions.IgnoreCase );
+                var matches = re.Match(path);
+                scriptPath = matches.Groups[1].Value;
+                path = matches.Groups[2].Value; ;
             }
 
             var item = _drive.Persister.Load(path);

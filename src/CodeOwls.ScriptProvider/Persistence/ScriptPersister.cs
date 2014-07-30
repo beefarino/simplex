@@ -20,7 +20,7 @@ namespace CodeOwls.ScriptProvider.Persistence
         public ScriptPersister( string scriptPath, CodeOwls.PowerShell.Provider.Provider provider )
         {
             _scriptPath = scriptPath;
-            _root = provider.SessionState.InvokeCommand.InvokeScript(scriptPath).FirstOrDefault();
+            _root = provider.SessionState.InvokeCommand.InvokeScript(@"& """ + scriptPath + @"""").FirstOrDefault();
         }
 
         public bool Remove(IItem item)
