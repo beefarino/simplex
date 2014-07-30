@@ -25,7 +25,7 @@ function script {
         [string]
         $name,
         
-        [parameter(position=1, mandatory=$false)]
+        [parameter()]
         [string]
         $idField,
 
