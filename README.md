@@ -30,7 +30,7 @@ cd s:\myfolder\mymodules
 dir
 ```
 
-# Simplex SDL
+# Simplex DSL
 
 The provider DSL consists of three elements:
 
