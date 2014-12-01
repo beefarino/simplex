@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/m7j0i2p0iue5gpaw?svg=true)](https://ci.appveyor.com/project/beefarino/simplex)
+
 # Simplex
 
 A powershell module used to create powershell providers using a simple DSL.
