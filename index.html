@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Simplex : A PowerShell module used to create PowerShell providers using a simple DSL.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Simplex</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/beefarino/simplex">View on GitHub</a>
+
+          <h1 id="project_title">Simplex</h1>
+          <h2 id="project_tagline">A PowerShell module used to create PowerShell providers using a simple DSL.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/beefarino/simplex/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/beefarino/simplex/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p><a href="https://ci.appveyor.com/project/beefarino/simplex"><img src="https://ci.appveyor.com/api/projects/status/m7j0i2p0iue5gpaw?svg=true" alt="Build status"></a></p>
+
+<h1>
+<a id="simplex" class="anchor" href="#simplex" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simplex</h1>
+
+<p>A powershell module used to create powershell providers using a simple DSL.</p>
+
+<h1>
+<a id="example-usage" class="anchor" href="#example-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example Usage</h1>
+
+<p>This example assumes the following Simplex script file is available at c:\share\mydrive.ps1:</p>
+
+<h2>
+<a id="simplex-script" class="anchor" href="#simplex-script" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simplex Script</h2>
+
+<div class="highlight highlight-powershell"><pre>root {
+   folder MyFolder {
+       script MyEnvironment <span class="pl-k">-</span>id key {
+           dir env:
+       }
+       script MyModules <span class="pl-k">-</span>id guid {
+            <span class="pl-k"><span class="pl-k">get-module</span></span>
+       }
+   }
+}</pre></div>
+
+<h2>
+<a id="powershell-session" class="anchor" href="#powershell-session" aria-hidden="true"><span class="octicon octicon-link"></span></a>PowerShell Session</h2>
+
+<div class="highlight highlight-powershell"><pre><span class="pl-k">import</span><span class="pl-k"><span class="pl-k">-module</span></span> simplex
+<span class="pl-k"><span class="pl-k">new-psdrive</span></span> s <span class="pl-k">-</span>psprovider simplex <span class="pl-k">-</span>root <span class="pl-s1"><span class="pl-pds">"</span>c:\share\mydrive.ps1<span class="pl-pds">"</span></span>
+<span class="pl-k"><span class="pl-k">cd</span></span> s:\myfolder\mymodules
+dir</pre></div>
+
+<h1>
+<a id="simplex-dsl" class="anchor" href="#simplex-dsl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simplex DSL</h1>
+
+<p>The provider DSL consists of three elements:</p>
+
+<ul>
+<li>root - used to define the root of the drive tree; the root may contain any number of folder and/or script elements</li>
+<li>folder - used to define simple named containers on the drive; the folder may contain any number of folder and/or script elements</li>
+<li>script - used to define a named collection of items; the script element uses a PowerShell script to return the items it contains; you can specify a property name use as the child name of the item</li>
+</ul>
+
+<h2>
+<a id="example-canonical-drive" class="anchor" href="#example-canonical-drive" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example: Canonical Drive</h2>
+
+<div class="highlight highlight-powershell"><pre>root {
+   folder MyFolder {
+       script MyEnvironment <span class="pl-k">-</span>id key {
+           dir env:
+       }
+       script MyModules <span class="pl-k">-</span>id guid {
+            <span class="pl-k"><span class="pl-k">get-module</span></span>
+       }
+   }
+}</pre></div>
+
+<h2>
+<a id="example-generated-drive-content" class="anchor" href="#example-generated-drive-content" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example: Generated Drive Content</h2>
+
+<div class="highlight highlight-powershell"><pre>root {
+   folder System {
+       script Processes <span class="pl-k">-</span>id id {
+           <span class="pl-k"><span class="pl-k">get-process</span></span>
+       }
+
+       script Errors <span class="pl-k">-</span>id index {
+           <span class="pl-k"><span class="pl-k">get-eventlog</span></span> <span class="pl-k">-</span>log application <span class="pl-k">-</span>eventtype error <span class="pl-k">-ne</span>west <span class="pl-c1">50</span>
+       }
+   }
+
+   folder Generated {
+       <span class="pl-c1">0..9</span> <span class="pl-k">|</span> <span class="pl-k"><span class="pl-k">foreach-object</span></span> {
+           <span class="pl-vo">$content</span> <span class="pl-k">=</span> <span class="pl-vo">$_</span>;
+           script <span class="pl-s1"><span class="pl-pds">"</span>Generated$_<span class="pl-pds">"</span></span> {
+               <span class="pl-vo">$content</span>
+           }.GetNewClosure();
+       }
+    }
+}</pre></div>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Simplex maintained by <a href="https://github.com/beefarino">beefarino</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
