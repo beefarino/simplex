@@ -15,6 +15,7 @@ namespace CodeOwls.ScriptProvider.Nodes
         private readonly string _idField;
 
         private static readonly ScriptBlock DefaultConvertToFile = ScriptBlock.Create("$input | convertto-xml -as string");
+
         public ScriptFolder(string name, string script, string idField, IFolder parentFolder)
             : this( name, ScriptBlock.Create(script), idField,parentFolder)
         {
@@ -41,7 +42,7 @@ namespace CodeOwls.ScriptProvider.Nodes
                     {
                         if (!String.IsNullOrWhiteSpace(_idField))
                         {
-                            if (!q.Properties.Any(p => p.Name.ToLowerInvariant() == "ScriptProviderchildname"))
+                            if (!q.Properties.Any(p => p.Name.ToLowerInvariant() == "scriptproviderchildname"))
                             {
                                 var value = q.SafeGetPropertyValue<object>(_idField,
                                                                            () =>
