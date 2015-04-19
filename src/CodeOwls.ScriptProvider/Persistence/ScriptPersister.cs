@@ -18,11 +18,22 @@ namespace CodeOwls.ScriptProvider.Persistence
         private readonly PSObject _root;
         
         public ScriptPersister( string scriptPath, CodeOwls.PowerShell.Provider.Provider provider )
+            : this(scriptPath, provider.SessionState)
+        {
+        }
+
+        public ScriptPersister(string scriptPath, IProviderContext providerContext) 
+            : this( scriptPath, providerContext.SessionState )
+        {
+        }
+
+
+        ScriptPersister(string scriptPath, SessionState sessionState)
         {
             _scriptPath = scriptPath;
             //var script = File.ReadAllText(scriptPath);
             //var scriptblock = ScriptBlock.Create(script);
-            _root = provider.SessionState.InvokeCommand.InvokeScript(             
+            _root = sessionState.InvokeCommand.InvokeScript(
                 @". """ + _scriptPath + @""";",
                 false,
                 PipelineResultTypes.None,

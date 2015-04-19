@@ -1,3 +1,9 @@
+<#
+This example demonstrates the basic DSL features you need to know
+to create a Simplex provider.
+
+
+#>
 root {
 
     folder Events {
@@ -14,6 +20,4 @@ root {
             get-eventLog -LogName Application -newest 20 -EntryType Information;
         }
     }
-
-
 }

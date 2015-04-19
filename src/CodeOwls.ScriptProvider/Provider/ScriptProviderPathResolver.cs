@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using CodeOwls.PowerShell.Paths.Processors;
 using CodeOwls.PowerShell.Provider.PathNodeProcessors;
 using CodeOwls.PowerShell.Provider.PathNodes;
+using CodeOwls.ScriptProvider.Persistence;
 
 namespace CodeOwls.ScriptProvider.Provider
 {
@@ -28,8 +29,25 @@ namespace CodeOwls.ScriptProvider.Provider
                 scriptPath = matches.Groups[1].Value;
                 path = matches.Groups[2].Value; ;
             }
+            else
+            {
+                Regex re = new Regex("^(.+\\.ps1)(.*)$", RegexOptions.IgnoreCase);
+                var matches = re.Match(path);
+                scriptPath = matches.Groups[1].Value;
+                path = matches.Groups[2].Value;
+            }
 
-            var item = _drive.Persister.Load(path);
+            IPersistScriptProviderNode persister = null;
+            if (null != _drive && null != _drive.Persister )
+            {
+                persister = _drive.Persister;
+            }
+            else
+            {   
+                persister = new ScriptPersister( scriptPath, context );
+            }
+
+            var item = persister.Load(path);
             if( null == item )
             {
                 var parts = Regex.Split(path, @"[\\\/]+").ToList();
@@ -37,14 +55,14 @@ namespace CodeOwls.ScriptProvider.Provider
                 var childName = parts.Last();
                 parts.RemoveAt( parts.Count - 1 );
                 var parentPath = String.Join("\\", parts.ToArray());
-                item = _drive.Persister.Load(parentPath);
+                item = persister.Load(parentPath);
 
                 while (null == item)
                 {                    
                     leftoverParts.Add(parts.Pop());
                     
                     parentPath = String.Join("\\", parts.ToArray());
-                    item = _drive.Persister.Load(parentPath);
+                    item = persister.Load(parentPath);
                 }
 
                 if (null == item)

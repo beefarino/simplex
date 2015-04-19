@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
+using System.Management.Automation.Provider;
+using CodeOwls.PowerShell.Paths;
 using CodeOwls.PowerShell.Provider.PathNodeProcessors;
 using CodeOwls.PowerShell.Provider.PathNodes;
 
 namespace CodeOwls.ScriptProvider.Provider
 {
-    class ProviderObjectNodeFactory : PathNodeBase, IInvokeItem, IClearItem, IRemoveItem, IRenameItem, INewItem, ISetItem
+    class ProviderObjectNodeFactory : PathNodeBase, IInvokeItem, IClearItem, IRemoveItem, IRenameItem, INewItem, ISetItem, IGetItemContent, ISetItemContent, IClearItemContent
     {
         private readonly PSObject _pso;
 
@@ -112,5 +114,35 @@ namespace CodeOwls.ScriptProvider.Provider
         }
 
         public object SetItemParameters { get; private set; }
+
+        public IContentReader GetContentReader(IProviderContext providerContext)
+        {
+            return providerContext.InvokeProvider.Content.GetReader(OriginalObjectPSPath).FirstOrDefault();
+        }
+
+        public object GetContentReaderDynamicParameters(IProviderContext providerContext)
+        {
+            return null;
+        }
+
+        public IContentWriter GetContentWriter(IProviderContext providerContext)
+        {
+            return providerContext.InvokeProvider.Content.GetWriter(OriginalObjectPSPath).FirstOrDefault();
+        }
+
+        public object GetContentWriterDynamicParameters(IProviderContext providerContext)
+        {
+            return null;
+        }
+
+        public void ClearContent(IProviderContext providerContext)
+        {
+            providerContext.InvokeProvider.Content.Clear(OriginalObjectPSPath);
+        }
+
+        public object ClearContentDynamicParameters(IProviderContext providerContext)
+        {
+            return null;
+        }
     }
 }

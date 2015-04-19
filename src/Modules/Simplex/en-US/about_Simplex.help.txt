@@ -53,3 +53,7 @@ SEE ALSO
     https://github.com/beefarino/simplex
     http://www.codeowls.com/
     about_Simplex_Version
+    root
+    folder
+    script
+    

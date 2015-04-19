@@ -25,6 +25,11 @@ namespace CodeOwls.ScriptProvider.Provider
             get { return new ScriptProviderPathResolver( Drive ); }
         }
 
+        protected override PSDriveInfo RemoveDrive(PSDriveInfo drive)
+        {
+            return base.RemoveDrive(drive);
+        }
+
         protected override PSDriveInfo NewDrive(PSDriveInfo drive)
         {
             return new ScriptProviderDrive(

@@ -1,3 +1,7 @@
+<#
+This example demonstrates how you can use functions inside of your
+simplex provider.
+#>
 
 function get-applicationEvents
 {
