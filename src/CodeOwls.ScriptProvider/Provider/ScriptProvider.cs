@@ -31,7 +31,6 @@ namespace CodeOwls.ScriptProvider.Provider
                 drive,
                 new ScriptPersister(drive.Root, this)
                 );
-        }
-        
+        }        
     }
 }

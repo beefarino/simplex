@@ -33,16 +33,43 @@ namespace CodeOwls.ScriptProvider.Provider
             if( null == item )
             {
                 var parts = Regex.Split(path, @"[\\\/]+").ToList();
+                var leftoverParts = new List<string>();
                 var childName = parts.Last();
                 parts.RemoveAt( parts.Count - 1 );
                 var parentPath = String.Join("\\", parts.ToArray());
                 item = _drive.Persister.Load(parentPath);
+
+                while (null == item)
+                {                    
+                    leftoverParts.Add(parts.Pop());
+                    
+                    parentPath = String.Join("\\", parts.ToArray());
+                    item = _drive.Persister.Load(parentPath);
+                }
+
                 if (null == item)
                 {
                     return null;
                 }
 
                 var factory = ItemPathNode.Create(_drive, item);
+                if (null == factory)
+                {
+                    return null;
+                }
+
+                while (leftoverParts.Any())
+                {
+                    var name = leftoverParts.Pop();
+                    factory = factory.Resolve(context, name).FirstOrDefault();
+
+                    if (null == factory)
+                    {
+                        return null;
+                    }
+
+                }
+                
                 return factory.Resolve(context, childName);
             }
 

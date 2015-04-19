@@ -13,9 +13,9 @@
                                             <Text>Container: </Text>
                                             <ExpressionBinding>
                                                 <PropertyName>PSParentPath</PropertyName>
-                                            </ExpressionBinding>                                            
+                                            </ExpressionBinding>
                                           <NewLine/>
-                                        </CustomItem> 
+                                        </CustomItem>
                                     </Frame>
                                 </CustomItem>
                             </CustomEntry>
@@ -34,7 +34,7 @@
             </ViewSelectedBy>
             <GroupBy>
                 <PropertyName>PSParentPath</PropertyName>
-                <CustomControlName>GenericCollection-GroupingFormat</CustomControlName>  
+                <CustomControlName>GenericCollection-GroupingFormat</CustomControlName>
             </GroupBy>
             <TableControl>
                 <TableHeaders>
@@ -71,48 +71,5 @@
                 </TableRowEntries>
             </TableControl>
         </View>
-      <View>
-        <Name>NamedPathChildren</Name>
-        <ViewSelectedBy>
-          <TypeName>CodeOwls.StudioShell.Paths.Items.ShellTemplate</TypeName>
-        </ViewSelectedBy>
-        <GroupBy>
-          <PropertyName>PSParentPath</PropertyName>
-          <CustomControlName>GenericCollection-GroupingFormat</CustomControlName>
-        </GroupBy>
-        <TableControl>
-          <TableHeaders>
-            <TableColumnHeader>
-              <Width>10</Width>
-              <Label>Item Ops</Label>
-              <Alignment>Left</Alignment>
-            </TableColumnHeader>
-            <TableColumnHeader>
-              <Width>24</Width>
-              <Label>Name</Label>
-              <Alignment>Left</Alignment>
-            </TableColumnHeader>
-            <TableColumnHeader>
-              <Label>Language</Label>
-              <Alignment>Left</Alignment>
-            </TableColumnHeader>
-          </TableHeaders>
-          <TableRowEntries>
-            <TableRowEntry>
-              <TableColumnItems>
-                <TableColumnItem>
-                  <PropertyName>SSItemMode</PropertyName>
-                </TableColumnItem>
-                <TableColumnItem>
-                  <PropertyName>PSChildName</PropertyName>
-                </TableColumnItem>
-                <TableColumnItem>
-                  <PropertyName>Language</PropertyName>
-                </TableColumnItem>
-              </TableColumnItems>
-            </TableRowEntry>
-          </TableRowEntries>
-        </TableControl>
-      </View>
     </ViewDefinitions>
 </Configuration>

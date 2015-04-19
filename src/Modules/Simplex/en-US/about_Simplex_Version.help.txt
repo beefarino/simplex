@@ -9,7 +9,16 @@ CHANGE LOG
     The changelog documents the changes in each release of the
     Simplex PowerShell module.
 
-1.0.0 
+1.1.0
+  New Features
+    Added example scripts.
+
+    Supports proxy of external provider objects; see examples/provider.ps1
+
+  Addressed Issues
+    Various bugs in dynamic property name casing and collisions.
+
+1.0.0
   Initial Release
 
 SEE ALSO

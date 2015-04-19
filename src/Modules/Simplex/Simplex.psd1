@@ -1,5 +1,5 @@
 <#
-    Copyright (c) 2014 Code Owls LLC, All Rights Reserved.    
+    Copyright (c) 2014 Code Owls LLC, All Rights Reserved.
 #>
 
 @{
@@ -7,7 +7,7 @@
     ModuleToProcess = 'bin/codeowls.scriptprovider.dll'
 
     # Version number of this module.
-    ModuleVersion = '1.0.0.0'
+    ModuleVersion = '1.1.0.0'
 
     # ID used to uniquely identify this module
     GUID = '75f97e9d7c4f4cf3862cbc2c639f601b'
@@ -22,7 +22,7 @@
     Copyright = 'Copyright (c) 2014 Code Owls LLC, All Rights Reserved'
 
     # Description of the functionality provided by this module
-    Description = 'A DSL for defining Providers.'
+    Description = 'A DSL for defining powershell providers.'
 
     # Minimum version of the Windows PowerShell engine required by this module
     PowerShellVersion = '3.0'
@@ -82,4 +82,3 @@
     # Private data to pass to the module specified in ModuleToProcess
     PrivateData = ''
 }
-

@@ -73,12 +73,14 @@
     <Compile Include="Provider\FolderPathNode.cs" />
     <Compile Include="Provider\ItemPathNode.cs" />
     <Compile Include="Provider\PathResolver.cs" />
+    <Compile Include="Provider\ProviderObjectNodeFactory.cs" />
     <Compile Include="Provider\ScriptProviderDrive.cs" />
     <Compile Include="Provider\ScriptProviderPathResolver.cs" />
     <Compile Include="Provider\ScriptProvider.cs" />
     <Compile Include="Provider\PsObjectNodeFactory.cs" />
     <Compile Include="Provider\RootPathNode.cs" />
     <Compile Include="Provider\ScriptPathNode.cs" />
+    <Compile Include="Provider\ScriptProviderPropertyNames.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

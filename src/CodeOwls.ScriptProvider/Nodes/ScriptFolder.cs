@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Management.Automation;
 using CodeOwls.PowerShell.Provider.PathNodeProcessors;
+using CodeOwls.ScriptProvider.Provider;
 
 
 namespace CodeOwls.ScriptProvider.Nodes
@@ -42,7 +43,8 @@ namespace CodeOwls.ScriptProvider.Nodes
                     {
                         if (!String.IsNullOrWhiteSpace(_idField))
                         {
-                            if (!q.Properties.Any(p => p.Name.ToLowerInvariant() == "scriptproviderchildname"))
+                            var matches = q.Properties.Match(ScriptProviderPropertyNames.ChildName);
+                            if (matches.IsNullOrEmpty())
                             {
                                 var value = q.SafeGetPropertyValue<object>(_idField,
                                                                            () =>
@@ -50,7 +52,7 @@ namespace CodeOwls.ScriptProvider.Nodes
                                                                                "PSChildName", () => null));
                                 if (null != value)
                                 {
-                                    var prop = new PSNoteProperty("ScriptProviderChildName", value);
+                                    var prop = new PSNoteProperty(ScriptProviderPropertyNames.ChildName, value);
                                     q.Properties.Add(prop);
                                 }
                             }
@@ -60,15 +62,6 @@ namespace CodeOwls.ScriptProvider.Nodes
                 context.WriteDebug( String.Format("Invocation of [{0}] complete; [{1}] results returned", _script, r.Count) );
                 return r;
             
-        }
-
-        private static void SetPSObjectProperty(string pname, string pvalue, PSObject q)
-        {
-            if (! q.Properties.Any(p => p.Name.ToLowerInvariant() == pname.ToLowerInvariant()))
-            {
-                var prop = new PSNoteProperty(pname, pvalue);
-                q.Properties.Add(prop);
-            }
         }
 
         public NodeType NodeType { get; private set; }

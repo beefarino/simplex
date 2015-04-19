@@ -28,13 +28,23 @@ LICENSE
 	SOFTWARE.
 
 SHORT DESCRIPTION
-    Provides a simple domain-specific language for creating script-based PowerShell providers.
+  Provides a simple domain-specific language for creating script-based PowerShell providers.
 
 LONG DESCRIPTION
 	Provides a simple domain-specific language for creating script-based PowerShell providers.
 
 QUICK EXAMPLE
-	import-module Simplex
+  # mySimplexScript.ps1
+  root {
+    folder "AppDomain" {
+      script "Assemblies" {
+        [appdomain]::currentDomain.getAssembly()
+      }
+    }
+  }
+
+  # using mySimplexScript.ps1
+  import-module Simplex
 	new-psdrive -name s -psprovider Simplex -root "c:\path\to\mySimplexScript.ps1"
 	cd s:
 	dir
@@ -42,4 +52,4 @@ QUICK EXAMPLE
 SEE ALSO
     https://github.com/beefarino/simplex
     http://www.codeowls.com/
-	about_Simplex_Version    
+    about_Simplex_Version

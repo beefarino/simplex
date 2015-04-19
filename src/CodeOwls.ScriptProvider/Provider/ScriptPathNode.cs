@@ -23,11 +23,20 @@ namespace CodeOwls.ScriptProvider.Provider
             var results = _script.Invoke(context).ToList();
             UpdateProperties(context, results);
             
-            var psoResults = results.ConvertAll(i => new PsObjectNodeFactory(i)).Cast<IPathNode>();
+            var psoResults = results.ConvertAll(CreateNode);
 
             list.AddRange(psoResults);
             
             return list;
+        }
+
+        private IPathNode CreateNode(PSObject input)
+        {
+            if( input.Properties.Match( "PSPath").Any())
+            {
+                return new ProviderObjectNodeFactory(input);
+            }
+            return new PsObjectNodeFactory(input);
         }
 
         public override string Name
@@ -44,24 +53,12 @@ namespace CodeOwls.ScriptProvider.Provider
                 p =>
                     {
                         context.WriteDebug(p.Name);
-                        var i = new PSNoteProperty("ScriptProviderItem" + p.Name, p.Value);
+                        var i = new PSNoteProperty(p.Name.ToScriptProviderPropertyName(), p.Value);
                         r.Properties.Add(i);
 
                     }
                   )
                 );
-
-
-            /*results.ForEach(r => r.Properties.Where(a => a.Name == "MenuItems" ).ToList().ForEach(
-                p =>
-                {
-                    context.WriteDebug(p.Name);
-                    var i = new PSNoteProperty("ScriptProviderMenuItems" + p.Name, p.Value);
-                    r.Properties.Add(i);
-
-                }
-                                     )
-                );*/
         }
 
     }
