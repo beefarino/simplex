@@ -1,6 +1,6 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/m7j0i2p0iue5gpaw?svg=true)](https://ci.appveyor.com/project/beefarino/simplex)
 
-[![Module Zip](https://ci.appveyor.com/app/images/artifact-zip.png)Download Module Zip](https://ci.appveyor.com/project/beefarino/bips/build/artifacts)
+[![Module Zip](https://ci.appveyor.com/app/images/artifact-zip.png)Download Module Zip](https://ci.appveyor.com/project/beefarino/simplex/build/artifacts)
 
 # Simplex
 
