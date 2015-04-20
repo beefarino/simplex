@@ -6,7 +6,7 @@ namespace CodeOwls.ScriptProvider.Nodes
     {
         NodeType NodeType { get; }
         string Name { get; }
-        IFolder ParentFolder { get; }
+        //IFolder ParentFolder { get; }
         PSObject Value { get; }
     }
 }

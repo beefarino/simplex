@@ -4,6 +4,7 @@ using System.Linq;
 using System.Management.Automation;
 using CodeOwls.PowerShell.Provider.PathNodeProcessors;
 using CodeOwls.PowerShell.Provider.PathNodes;
+using CodeOwls.ScriptProvider.Nodes;
 
 namespace CodeOwls.ScriptProvider.Provider
 {

@@ -128,52 +128,7 @@ namespace CodeOwls.ScriptProvider.Persistence
             builder.AppendFormat(format, value);
         }
 
-        private void AddItemToParent(IItem item)
-        {
-            var parentMoniker = GetMoniker(item.ParentFolder);
-            var parentItem = GetDataItem( parentMoniker.Split('/','\\') );
-            var folder = parentItem as IFolder;
-            if (null == folder)
-            {
-                throw new InvalidOperationException( "The specified item parent is not a folder");
-            }
-            if (item.NodeType == NodeType.Folder)
-            {
-                var addFolder = folder as IAddFolder;
-                if (null == addFolder)
-                {
-                    throw new InvalidOperationException( "The specified parent folder does not support adding child folders");
-                }
-                addFolder.AddFolder(item.Name);
-            }
-            else if (item.NodeType == NodeType.Script)
-            {
-                var addScript = folder as IAddScript;
-                if (null == addScript)
-                {
-                    throw new InvalidOperationException( "The specified parent folder does not support adding child scripts");
-                }
-                var script = item as IScript;
-                addScript.AddScript(
-                    script.Name, script.Script, 
-                    script.IdField
-                );                
-            }
-        }
-
-        private string GetMoniker(IItem item)
-        {
-            var ra = new List<string>();
-            while (null != item)
-            {
-                ra.Add( item.Name );
-                item = item.ParentFolder;
-            }
-            ra.Reverse();
-            return String.Join("/", ra.Where(v=>!String.IsNullOrWhiteSpace(v)).ToArray());
-
-        }
-
+        
         public IItem Load(string moniker)
         {            
             if (null == _root)

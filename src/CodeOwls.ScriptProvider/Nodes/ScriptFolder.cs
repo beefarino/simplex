@@ -17,14 +17,13 @@ namespace CodeOwls.ScriptProvider.Nodes
 
         private static readonly ScriptBlock DefaultConvertToFile = ScriptBlock.Create("$input | convertto-xml -as string");
 
-        public ScriptFolder(string name, string script, string idField, IFolder parentFolder)
-            : this( name, ScriptBlock.Create(script), idField,parentFolder)
+        public ScriptFolder(string name, string script, string idField)
+            : this( name, ScriptBlock.Create(script), idField)
         {
         }
 
-        public ScriptFolder(string name, ScriptBlock script, string idField, IFolder parentFolder)
+        public ScriptFolder(string name, ScriptBlock script, string idField)
         {
-            ParentFolder = parentFolder;
             _name = name;
             _script = script;
             _idField = idField;
@@ -94,9 +93,5 @@ namespace CodeOwls.ScriptProvider.Nodes
             get { return _script.AsPSObject(); }
         }
 
-        public IFolder ParentFolder
-        {
-            get; private set;
-        }
     }
 }

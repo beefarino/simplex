@@ -72,17 +72,21 @@ function script {
 
     if( $icon -and -not $icon.EndsWith('.ico') -and -not $icon.StartsWith('.') -and -not $icon.Contains(',') ) { $icon = ".$icon" }
     if( $itemicon -and -not $itemicon.StartsWith('.') ) { $itemicon = ".$itemicon" }
-    $s = new-object codeowls.ScriptProvider.nodes.scriptfolder -arg $name,$script,$idField,$script:currentParentNode.Peek();
+    $s = new-object codeowls.ScriptProvider.nodes.scriptfolder -arg $name,$script,$idField;
 
     return $s;
 <#
    .SYNOPSIS
-    Defines a script-based container node in the simplex provider.
-   .DESCRIPTION
    Defines a script-based container node in the simplex provider.
+   .DESCRIPTION
+   Defines a script-based container node in the simplex provider.  Script nodes
+   are evaluated on-demand as necessary by the Simplex provider.
 
-   The objects output by the script become child objects of this node.  If an
-   object returned by the script is another provider item, the relevant
+   The objects output by the script become child objects of this node. Script
+   nodes can contain child Folder and Script nodes.  This means you can
+   generate dynamic child node hierarchies.
+
+   If an object returned by the script is another provider item, the relevant
    item properties from the original provider are proxied to the simplex
    provider.
 
@@ -114,7 +118,7 @@ function folder {
         $script
     )
 
-    $folder = new-object codeowls.ScriptProvider.nodes.folder -arg $name,$script:currentParentNode.Peek();
+    $folder = new-object codeowls.ScriptProvider.nodes.folder -arg $name;
     $script:currentParentNode.Push($folder);
     $items=[codeowls.ScriptProvider.nodes.iitem[]]@(& $script);
     $folder.Children.AddRange( $items );
@@ -123,9 +127,10 @@ function folder {
     return $folder;
 <#
    .SYNOPSIS
-    Defines a named container node in the simplex provider.
-   .DESCRIPTION
    Defines a named container node in the simplex provider.
+   .DESCRIPTION
+   Defines a named container node in the simplex provider.  Folder nodes
+   are evaluated once in the context of the Simplex DSL script load.
 
    The folder node can contain other folder nodes and script nodes.
 

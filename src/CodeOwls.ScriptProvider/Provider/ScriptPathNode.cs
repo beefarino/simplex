@@ -32,10 +32,21 @@ namespace CodeOwls.ScriptProvider.Provider
 
         private IPathNode CreateNode(PSObject input)
         {
-            if( input.Properties.Match( "PSPath").Any())
+            
+            if (input.BaseObject is IScript)
+            {
+                return new ScriptPathNode( Drive, input.BaseObject as IScript);
+            }
+            if (input.BaseObject is IFolder)
+            {
+                return new FolderPathNode(Drive, input.BaseObject as IFolder);
+            }
+
+            if (input.Properties.Match("PSPath").Any())
             {
                 return new ProviderObjectNodeFactory(input);
             }
+
             return new PsObjectNodeFactory(input);
         }
 

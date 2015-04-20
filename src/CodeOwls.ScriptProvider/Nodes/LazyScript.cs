@@ -38,11 +38,6 @@ namespace CodeOwls.ScriptProvider.Nodes
             get { return RealScript.Name; }
         }
 
-        public IFolder ParentFolder
-        {
-            get { return RealScript.ParentFolder; }
-        }
-
         public PSObject Value
         {
             get { return RealScript.Value; }

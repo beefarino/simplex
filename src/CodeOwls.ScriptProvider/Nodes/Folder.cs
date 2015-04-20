@@ -36,14 +36,14 @@ namespace CodeOwls.ScriptProvider.Nodes
 
         public IFolder AddScript( string name, string script )
         {
-            var scriptFolder = new ScriptFolder(name, script, null, this);
+            var scriptFolder = new ScriptFolder(name, script, null);
             _children.Add( scriptFolder  );
             return scriptFolder;
         }
 
         public IFolder AddScript(string name, ScriptBlock scriptBlock, string idField )
         {
-            var scriptFolder = new ScriptFolder(name, scriptBlock, idField, this );
+            var scriptFolder = new ScriptFolder(name, scriptBlock, idField );
             _children.Add( scriptFolder);
             return scriptFolder;
         }

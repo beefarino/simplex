@@ -9,6 +9,11 @@ CHANGE LOG
     The changelog documents the changes in each release of the
     Simplex PowerShell module.
 
+1.2.0
+  New Features
+    Added ability to nest Script nodes under Script nodes for generative
+    provider hierarchies.
+
 1.1.0
   New Features
     Added example scripts.

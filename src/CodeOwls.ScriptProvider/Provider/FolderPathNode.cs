@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
+using System.Text.RegularExpressions;
 using CodeOwls.ScriptProvider.Nodes;
 using CodeOwls.PowerShell.Provider.PathNodeProcessors;
 using CodeOwls.PowerShell.Provider.PathNodes;
@@ -139,7 +140,15 @@ namespace CodeOwls.ScriptProvider.Provider
         public object RemoveItemParameters { get; private set; }
         public void RemoveItem(IProviderContext context, string path, bool recurse)
         {
-            var folder = _folder.ParentFolder as IRemoveFolderItem;
+            var re = new Regex( @"[\/\\]+[^\/\\]+$");
+            var parentPath = re.Replace(context.Path, String.Empty);
+            var parent = context.ResolvePath(parentPath);
+            if (null == parent)
+            {
+                return;
+            }
+
+            var folder = parent.GetNodeValue().Item as IRemoveFolderItem;//_folder.ParentFolder as IRemoveFolderItem;
             if (null == folder)
             {
                 return;
