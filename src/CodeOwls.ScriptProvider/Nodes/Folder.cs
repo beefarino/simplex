@@ -7,10 +7,10 @@ namespace CodeOwls.ScriptProvider.Nodes
     {
         protected List<IItem> _children;
 
-        public Folder( string name, IFolder parentFolder )
+        public Folder( string name )
         {
             Name = name;
-            ParentFolder = parentFolder;
+
             Value = this.AsPSObject();
             _children = new List<IItem>();
             NodeType = NodeType.Folder;
@@ -29,7 +29,7 @@ namespace CodeOwls.ScriptProvider.Nodes
 
         public IFolder AddFolder(string name)
         {
-            var folder = new Folder(name, this);
+            var folder = new Folder(name);
             _children.Add( folder );
             return folder;
         }
