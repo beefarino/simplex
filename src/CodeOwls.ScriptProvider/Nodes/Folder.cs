@@ -41,9 +41,9 @@ namespace CodeOwls.ScriptProvider.Nodes
             return scriptFolder;
         }
 
-        public IFolder AddScript(string name, ScriptBlock scriptBlock, string idField )
+        public IFolder AddScript(string name, ScriptBlock scriptBlock, string idField, ScriptBlock addScriptBlock, ScriptBlock removeScriptBlock )
         {
-            var scriptFolder = new ScriptFolder(name, scriptBlock, idField );
+            var scriptFolder = new ScriptFolder(name, scriptBlock, idField, addScriptBlock, removeScriptBlock );
             _children.Add( scriptFolder);
             return scriptFolder;
         }

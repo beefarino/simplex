@@ -1,24 +1,24 @@
 ﻿#
 # Copyright (c) 2014 Code Owls LLC
 #
-# Permission is hereby granted, free of charge, to any person obtaining a copy 
-# of this software and associated documentation files (the "Software"), to 
-# deal in the Software without restriction, including without limitation the 
-# rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
-# sell copies of the Software, and to permit persons to whom the Software is 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to
+# deal in the Software without restriction, including without limitation the
+# rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+# sell copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
 #
-# The above copyright notice and this permission notice shall be included in 
+# The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
 #
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
-# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
-# IN THE SOFTWARE. 
-# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+# IN THE SOFTWARE.
+#
 # 	psake build script for the Simplex module
 #
 # 	valid configurations:
@@ -29,12 +29,12 @@
 #
 
 properties {
-	$config = 'Debug'; 	
+	$config = 'Debug';
 	$slnFile = @(
 		'./src/Simplex.sln'
-	);	
+	);
     $targetPath = "./src/CodeOwls.ScriptProvider/bin";
-    
+
     $moduleName = "Simplex";
 	$moduleSource = "./src/Modules";
     $metadataAssembly = 'CodeOwls.ScriptProvider.dll'
@@ -49,32 +49,36 @@ task default -depends Install;
 
 # private tasks
 
-task __VerifyConfiguration -description $private {
+task __InitializeBuild -description $private {
+	$error.clear();
+}
+
+task __VerifyConfiguration -depends __InitializeBuild -description $private {
 	Assert ( @('Debug', 'Release') -contains $config ) "Unknown configuration, $config; expecting 'Debug' or 'Release'";
 	Assert ( Test-Path $slnFile ) "Cannot find solution, $slnFile";
-	
+
 	Write-Verbose ("packageDirectory: " + ( get-packageDirectory ));
 }
 
 task __CreatePackageDirectory -description $private {
-	get-packageDirectory | create-packageDirectory;		
+	get-packageDirectory | create-packageDirectory;
 }
 
 task __CreateModulePackageDirectory -description $private {
-	get-modulePackageDirectory | create-packageDirectory;		
+	get-modulePackageDirectory | create-packageDirectory;
 }
 
 # primary targets
 
 task Build -depends __VerifyConfiguration -description "builds any outdated dependencies from source" {
-	exec { 
-		msbuild $slnFile /p:Configuration=$config /t:Build 
+	exec {
+		msbuild $slnFile /p:Configuration=$config /t:Build
 	}
 }
 
 task Clean -depends __VerifyConfiguration,CleanModule -description "deletes all temporary build artifacts" {
-	exec { 
-		msbuild $slnFile /p:Configuration=$config /t:Clean 
+	exec {
+		msbuild $slnFile /p:Configuration=$config /t:Clean
 	}
 }
 
@@ -85,7 +89,7 @@ task Package -depends PackageModule -description "assembles distributions in the
 # clean tasks
 
 task CleanModule -depends __CreateModulePackageDirectory -description "clears the module package staging area" {
-    get-modulePackageDirectory | 
+    get-modulePackageDirectory |
         remove-item -recurse -force;
 }
 
@@ -96,16 +100,16 @@ task PackageModule -depends CleanModule,Build,__CreateModulePackageDirectory -de
     $psdFile = "$mp/$moduleName/$moduleName.psd1";
     $bin = "$mp/$moduleName/bin";
 	$version = get-packageVersion;
-    
+
     write-verbose "package module $moduleName in $mp with version $version";
-    
+
 	# copy module src hive to distribution hive
 	Copy-Item $moduleSource -container -recurse -Destination $mp -Force;
-	
+
 	# copy bins to module bin area
     mkdir $bin -force | out-null;
 	get-targetOutputPath | ls | copy-item -dest $bin -recurse -force;
-    
+
     $psd = get-content $psdFile;
     $psd -replace "ModuleVersion = '[\d\.]+'","ModuleVersion = '$version'" | out-file $psdFile;
 }
@@ -117,7 +121,7 @@ task Uninstall -description "uninstalls the module from the local user module re
 	if( Test-Path $modulePath )
 	{
 		Write-Verbose "uninstalling from local module repository at $modulePath";
-		
+
 		$modulePath | ri -Recurse -force;
 	}
 }
@@ -128,8 +132,8 @@ task InstallModule -depends PackageModule -description "installs the module to t
 	$packagePath = get-modulePackageDirectory;
 	$modulePath = $Env:PSModulePath -split ';' | select -First 1;
 	Write-Verbose "installing to local module repository at $modulePath";
-	
-	ls $packagePath | Copy-Item -recurse -Destination $modulePath -Force;	
+
+	ls $packagePath | Copy-Item -recurse -Destination $modulePath -Force;
 }
 
 function get-packageDirectory
@@ -152,7 +156,7 @@ function create-PackageDirectory( [Parameter(ValueFromPipeline=$true)]$packageDi
     		Write-Verbose "creating package directory at $packageDirectory ...";
     		mkdir $packageDirectory | Out-Null;
     	}
-    }    
+    }
 }
 
 function get-targetOutputPath

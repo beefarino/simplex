@@ -16,6 +16,17 @@ namespace CodeOwls.ScriptProvider.Provider
             _script = script;
         }
 
+        public override IPathValue NewItem(IProviderContext context, string path, string itemTypeName, object newItemValue)
+        {
+            _script.InvokeAdd(context, path, itemTypeName, newItemValue);
+            return Resolve(context, path).First().GetNodeValue();
+        }
+
+        public override void RemoveItem(IProviderContext context, string path, bool recurse)
+        {
+            _script.InvokeRemove(context, path);
+        }
+
         public override IEnumerable<IPathNode> GetNodeChildren(PowerShell.Provider.PathNodeProcessors.IProviderContext context)
         {
             var list = new List<IPathNode>(base.GetNodeChildren(context));
@@ -42,7 +53,7 @@ namespace CodeOwls.ScriptProvider.Provider
                 return new FolderPathNode(Drive, input.BaseObject as IFolder);
             }
 
-            if (input.Properties.Match("PSPath").Any())
+            if (input.Properties.Match("PSPath").Any(p=> !p.Value.ToString().ToLowerInvariant().StartsWith("simplex")))
             {
                 return new ProviderObjectNodeFactory(input);
             }

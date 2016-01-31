@@ -52,27 +52,21 @@ function script {
         [parameter(mandatory=$true, position = 2)]
         [scriptblock]
         # a scriptblock that outputs child objects
-        $script
+        $script,
+
+        [parameter()]
+        [scriptblock]
+        # a scriptblock that adds new child objects to the container
+        $add,
+
+        [parameter()]
+        [scriptblock]
+        # a scriptblock that removes existing child objects from the container
+        $remove
     )
 
-    $menu = new-object 'system.collections.generic.dictionary[string,ScriptBlock]'
-    for( $c = 0; $c -lt $contextMenuItems.length; $c += 2 )
-    {
-        $key = $contextMenuItems[$c].TrimStart('-');
-        $sb = $contextMenuItems[1+$c];
-
-        if( $sb -isnot [scriptblock] )
-        {
-            write-error "context menu item '$key' specifies an invalid value '$sb' of type '$($sb.getType().fullName)'; only scriptblocks may be specified for context menu items";
-            return;
-        }
-
-        $menu[$key] = [scriptblock]$sb;
-    }
-
-    if( $icon -and -not $icon.EndsWith('.ico') -and -not $icon.StartsWith('.') -and -not $icon.Contains(',') ) { $icon = ".$icon" }
-    if( $itemicon -and -not $itemicon.StartsWith('.') ) { $itemicon = ".$itemicon" }
-    $s = new-object codeowls.ScriptProvider.nodes.scriptfolder -arg $name,$script,$idField;
+    $s = new-object codeowls.ScriptProvider.nodes.scriptfolder `
+      -arg $name,$script,$idField,$add,$remove;
 
     return $s;
 <#

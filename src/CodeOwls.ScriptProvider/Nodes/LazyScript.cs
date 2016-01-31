@@ -53,6 +53,16 @@ namespace CodeOwls.ScriptProvider.Nodes
             return RealScript.Invoke(context);
         }
 
+        public PSObject InvokeAdd(IProviderContext context, string itemName, string type, object value)
+        {
+            return RealScript.InvokeAdd(context, itemName, type, value);
+        }
+
+        public void InvokeRemove(IProviderContext context, string itemName)
+        {
+            RealScript.InvokeRemove(context, itemName);
+        }
+
         public string IdField
         {
             get { return RealScript.IdField; }
@@ -65,9 +75,14 @@ namespace CodeOwls.ScriptProvider.Nodes
             get { return RealScript.Script; }
         }
 
-        /*public IDictionary<string, ScriptBlock> MenuItems 
+        public ScriptBlock AddScript
         {
-            get { return RealScript.MenuItems; }
-        }*/
+            get { return RealScript.AddScript; }
+        }
+
+        public ScriptBlock RemoveScript
+        {
+            get { return RealScript.RemoveScript; }
+        }
     }
 }

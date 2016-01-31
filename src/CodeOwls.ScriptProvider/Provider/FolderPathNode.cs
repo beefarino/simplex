@@ -39,8 +39,8 @@ namespace CodeOwls.ScriptProvider.Provider
         {
             get { return new[]{"script", "folder"}; }
         }
-        public object NewItemParameters { get { return null; } }
-        public IPathValue NewItem(IProviderContext context, string path, string itemTypeName, object newItemValue)
+        public virtual object NewItemParameters { get { return null; } }
+        public virtual IPathValue NewItem(IProviderContext context, string path, string itemTypeName, object newItemValue)
         {
             if (null == path)
             {
@@ -112,10 +112,12 @@ namespace CodeOwls.ScriptProvider.Provider
         {
             Drive.Persister.Save(newfolder);
         }
+
         private void Unpersist(IFolder newfolder)
         {
             Drive.Persister.Remove(newfolder);
         }
+
         private IPathValue NewScript(string name, object newItemValue)
         {
             if( null == newItemValue )
@@ -131,14 +133,17 @@ namespace CodeOwls.ScriptProvider.Provider
 
             var scriptBlock = newItemValue as ScriptBlock;
             var script = ScriptBlock.Create( newItemValue.ToString() );
-            //todo: fix
-            var newScript = folder.AddScript(name, scriptBlock ?? script, null);
+
+            //todo: add new-item parameters for -add and -remove and -idField
+            var newScript = folder.AddScript(name, scriptBlock ?? script, null, null, null);
+            
             Persist(newScript);
+            
             return new ContainerPathValue( newScript, name );
         }
 
-        public object RemoveItemParameters { get; private set; }
-        public void RemoveItem(IProviderContext context, string path, bool recurse)
+        public virtual object RemoveItemParameters { get; private set; }
+        public virtual void RemoveItem(IProviderContext context, string path, bool recurse)
         {
             var re = new Regex( @"[\/\\]+[^\/\\]+$");
             var parentPath = re.Replace(context.Path, String.Empty);

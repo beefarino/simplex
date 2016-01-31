@@ -92,7 +92,24 @@ namespace CodeOwls.ScriptProvider.Persistence
                 builder.AppendLine("{");
                 builder.AppendFormat("{0}", Indent(s.Script.ToString(), ++_indent) );
                 builder.AppendFormat("{0}}}", GetIndent(--_indent));
-                builder.AppendLine();
+
+                builder.AppendLine(); 
+                
+                if (null != s.AddScript)
+                {
+                    builder.AppendLine(" -add {");
+                    builder.AppendFormat("{0}", Indent(s.AddScript.ToString(), ++_indent));
+                    builder.AppendFormat("{0}}}", GetIndent(--_indent));
+                    builder.AppendLine();
+                }
+
+                if (null != s.RemoveScript)
+                {
+                    builder.AppendLine(" -remove {");
+                    builder.AppendFormat("{0}", Indent(s.RemoveScript.ToString(), ++_indent));
+                    builder.AppendFormat("{0}}}", GetIndent(--_indent));
+                    builder.AppendLine();
+                }
             }
             else if (item is IFolder)
             {

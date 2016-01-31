@@ -25,9 +25,9 @@ namespace CodeOwls.ScriptProvider.Provider
             get { return new ScriptProviderPathResolver( Drive ); }
         }
 
-        protected override PSDriveInfo RemoveDrive(PSDriveInfo drive)
+        protected override void RemoveItem(string path, bool recurse)
         {
-            return base.RemoveDrive(drive);
+            base.RemoveItem(path, recurse);
         }
 
         protected override PSDriveInfo NewDrive(PSDriveInfo drive)
